@@ -11,16 +11,16 @@ RMAN-Parse.exe <Manifest file>
 ```
 
 ## RMAN File Structure 
-This Tree Shows only Classes and Properties using Classes as Type.
-```
-RMAN-File
-┣ File Header
-┣ Manifest
-┃ ┗ Manifest Header
-┃ ┗ Bundles
-┃   ┗ Chunks
-┃ ┗ Languages
-┃ ┗ Files (List)
-┃   ┗ Chunks
-┃ ┗ Folders
-```
+This Tree shows only Classes and Properties using Classes as Type. For all Properties please use the links below.\
+The exported Json Manifest has also this Structure
+
+RMAN-File \
+┣ [File Header](RMAN/RMANFileHeader.cs) \
+┗ [Manifest](RMAN/RMANManifest.cs) \
+&nbsp;&nbsp; ┣ [Manifest Header](RMAN/RMANManifestHeader.cs) \
+&nbsp;&nbsp; ┣ [Bundles](RMAN/RMANBundleEntry.cs) \
+&nbsp;&nbsp; ┃┗ [Chunks](RMAN/RMANBundleChunkEntry.cs) \
+&nbsp;&nbsp; ┣ [Languages](RMAN/RMANLanguageEntry.cs) \
+&nbsp;&nbsp; ┣ [Files](RMAN/RMANFileEntry.cs) \
+&nbsp;&nbsp; ┃┗ [Chunks](RMAN/RMANBundleChunkEntry.cs) \
+&nbsp;&nbsp; ┗  [Folders](RMAN/RMANFolderEntry.cs)
