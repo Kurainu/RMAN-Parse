@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RMAN-Parse": {
+      "commandName": "Project",
+      "commandLineArgs": "\"E:\\2AE524D5BC9D2C40.manifest\""
+    }
+  }
+}
