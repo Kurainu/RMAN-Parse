@@ -134,7 +134,8 @@ namespace RMAN_Parse.RMAN
                     
                     reader.BaseStream.Seek(CurrentChunkPosition, SeekOrigin.Begin);
 
-                    ChunkMap.Add(chunk.ChunkId, chunk);
+                    ChunkMap[chunk.ChunkId] = chunk;
+
                     chunks.Add(chunk);
                     OffsettoChunk += chunk.CompressedSize;
                 }
