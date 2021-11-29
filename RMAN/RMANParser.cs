@@ -239,20 +239,29 @@ namespace RMAN_Parse.RMAN
 
                 file.IsSingleChunk = reader.ReadInt32() > 0;
 
+                int offsetinfile = 0;
+                List<RMANBundleChunkEntry> chunks = new List<RMANBundleChunkEntry>();
                 if (!file.IsSingleChunk)
                 {
-                    List<RMANBundleChunkEntry> chunks = new List<RMANBundleChunkEntry>();
                     int ChunkidCount = reader.ReadInt32();
                     for (int j = 0; j < ChunkidCount; j++)
                     {
-                        chunks.Add(ChunkMap.GetValueOrDefault(reader.ReadInt64().ToString("X")));
+                        RMANBundleChunkEntry chunk = ChunkMap.GetValueOrDefault(reader.ReadInt64().ToString("X"));
+                        chunk.OffsetinFile = offsetinfile;
+                        offsetinfile += chunk.UncompressedSize;
+                        chunks.Add(chunk);
                     }
 
                     file.Chunks = chunks;
                 }
                 else
                 {
-                    file.Chunks = new List<RMANBundleChunkEntry> { ChunkMap.GetValueOrDefault(reader.ReadInt64().ToString("X")) };
+                    RMANBundleChunkEntry chunk = ChunkMap.GetValueOrDefault(reader.ReadInt64().ToString("X"));
+                    chunk.OffsetinFile = offsetinfile;
+                    chunks.Add(chunk);
+                    offsetinfile += chunk.UncompressedSize;
+
+                    file.Chunks = chunks;
                     file.Unknown3 = reader.ReadInt32();
                 }
 
