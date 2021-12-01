@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RMAN_Parse.RMAN
 {
-    class RMANFileEntry
+    public class RMANFileEntry
     {
         public int Offset { get; set; }
         public int TableoffsetOffset { get; set; }

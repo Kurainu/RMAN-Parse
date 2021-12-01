@@ -1,6 +1,6 @@
 ﻿namespace RMAN_Parse.RMAN
 {
-    class RMANManifestHeader
+    public class RMANManifestHeader
     {
         public int OffsetTableOffset { get; set; }
         public int BundleListOffset { get; set; }

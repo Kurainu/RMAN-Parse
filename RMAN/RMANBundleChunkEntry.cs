@@ -1,6 +1,6 @@
 ﻿namespace RMAN_Parse.RMAN
 {
-    class RMANBundleChunkEntry
+    public class RMANBundleChunkEntry
     {
         public string ParentBundleID { get; set; }
         public int OffsetToChunk { get; set; }

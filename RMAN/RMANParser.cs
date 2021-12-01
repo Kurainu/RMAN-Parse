@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 namespace RMAN_Parse.RMAN
 {
-    class RMANParser
+    public class RMANParser
     {
         private static Dictionary<string, RMANBundleChunkEntry> ChunkMap { get; set; } = new Dictionary<string, RMANBundleChunkEntry>();
 

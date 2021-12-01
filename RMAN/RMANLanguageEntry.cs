@@ -1,6 +1,6 @@
 ﻿namespace RMAN_Parse.RMAN
 {
-    class RMANLanguageEntry
+    public class RMANLanguageEntry
     {
         public int Offset { get; set; }
         public int TableoffsetOffset { get; set; }

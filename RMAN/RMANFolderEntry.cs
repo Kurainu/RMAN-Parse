@@ -2,7 +2,7 @@
 
 namespace RMAN_Parse.RMAN
 {
-    class RMANFolderEntry
+    public class RMANFolderEntry
     {
         public int Offset { get; set; }
         public int TableoffsetOffset { get; set; }
