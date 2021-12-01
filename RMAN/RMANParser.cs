@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+
 namespace RMAN_Parse.RMAN
 {
     public class RMANParser
@@ -29,8 +31,8 @@ namespace RMAN_Parse.RMAN
             manifest.ManifestHeader = ParseManifestHeader(reader);
             manifest.Bundles = GetBundles(reader, manifest);
             manifest.Languages = GetLanguages(reader, manifest);
-            manifest.Files = GetFiles(reader, manifest);
             manifest.Folders = GetFolders(reader, manifest);
+            manifest.Files = GetFiles(reader, manifest);
 
             return manifest;
         }
@@ -226,6 +228,16 @@ namespace RMAN_Parse.RMAN
                 if (file.Structsize > 28)
                 {
                     file.DirectoryId = reader.ReadInt64();
+
+                    string Path = "";
+                    long ParentId = file.DirectoryId;
+                    while (ParentId != 0)
+                    {
+                        RMANFolderEntry folder = manifest.Folders.Where(f => f.FolderId == ParentId).FirstOrDefault();
+                        Path += $"{folder.Name}\\{Path}";
+                        ParentId = folder.ParentId;
+                    }
+                    file.FullPath = Path;
                 }
 
                 file.FileSize = reader.ReadInt32();
