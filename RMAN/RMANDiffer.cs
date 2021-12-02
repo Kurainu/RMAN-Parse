@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RMAN_Parse.RMAN
 {
-    class RMANDiffer
+    public class RMANDiffer
     {
         private RMANFile Source { get; set; }
         private RMANFile Update { get; set; }
