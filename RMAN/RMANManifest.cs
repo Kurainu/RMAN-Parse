@@ -2,7 +2,7 @@
 
 namespace RMAN_Parse.RMAN
 {
-    class RMANManifest
+    public class RMANManifest
     {
         public RMANManifestHeader ManifestHeader { get; set; }
         public List<RMANBundleEntry> Bundles { get; set; }

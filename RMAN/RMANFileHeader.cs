@@ -1,6 +1,6 @@
 ﻿namespace RMAN_Parse.RMAN
 {
-    class RMANFileHeader
+    public class RMANFileHeader
     {
         public string Magic { get; set; }
         public byte Major { get; set; }

@@ -2,7 +2,7 @@
 
 namespace RMAN_Parse.RMAN
 {
-    class RMANBundleEntry
+    public class RMANBundleEntry
     {
         public int Offset { get; set; }
         public int TableoffsetOffset { get; set; }
