@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,20 +31,48 @@ namespace RMAN_Parse.RMAN
         public Boolean IsSingleChunk { get; set; }
         public List<RMANBundleChunkEntry> Chunks { get; set; }
 
+        /// <summary>
+        /// Downloads all Chunks and assembles Final File
+        /// </summary>
+        /// <param name="Outputpath">Full Outpath Name with Filename and extension</param>
+        /// <param name="bundleurl">Bundle Url for the Chunks to be downloaded from</param>
+
         public void DownloadFile(string Outputpath, string bundleurl)
         {
-            FileStream fileStream = new FileStream(Outputpath,FileMode.Append, FileAccess.Write);
+            using (FileStream fs = new FileStream(Outputpath, FileMode.Append))
+            {
+                foreach (RMANBundleChunkEntry chunk in Chunks)
+                {
+                    byte[] decompressed = new byte[chunk.UncompressedSize];
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"{bundleurl}\\{chunk.ParentBundleID}.bundle");
+                    request.AddRange(chunk.OffsetToChunk, (chunk.OffsetToChunk + chunk.CompressedSize));
+                    WebResponse response = request.GetResponse();
+                    ZstdSharp.ZstdStream zstdStream = new ZstdSharp.ZstdStream(response.GetResponseStream(), ZstdSharp.ZstdStreamMode.Decompress);
+                    zstdStream.Read(decompressed);
+                    fs.Write(decompressed);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns a Memory Stream for the File
+        /// </summary>
+        /// <param name="bundleurl">Bundle Url for the Chunks to be downloaded from</param>
+
+        public Stream GetStream(string bundleurl)
+        {
+            MemoryStream stream = new MemoryStream();
             foreach (RMANBundleChunkEntry chunk in Chunks)
             {
                 byte[] decompressed = new byte[chunk.UncompressedSize];
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"{bundleurl}\\{chunk.ParentBundleID}.bundle");
-                request.AddRange(chunk.OffsetToChunk, (chunk.OffsetToChunk+chunk.CompressedSize));
+                request.AddRange(chunk.OffsetToChunk, (chunk.OffsetToChunk + chunk.CompressedSize));
                 WebResponse response = request.GetResponse();
-                //response.GetResponseStream().CopyTo(memoryStream);
                 ZstdSharp.ZstdStream zstdStream = new ZstdSharp.ZstdStream(response.GetResponseStream(), ZstdSharp.ZstdStreamMode.Decompress);
-                zstdStream.Read(decompressed);
-                fileStream.Write(decompressed);
+                zstdStream.CopyTo(stream);
             }
+
+            return stream;
         }
     }
 }
