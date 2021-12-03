@@ -59,7 +59,7 @@ namespace RMAN_Parse.RMAN
         /// </summary>
         /// <param name="bundleurl">Bundle Url for the Chunks to be downloaded from</param>
 
-        public Stream GetStream(string bundleurl)
+        public MemoryStream GetStream(string bundleurl)
         {
             MemoryStream stream = new MemoryStream();
             foreach (RMANBundleChunkEntry chunk in Chunks)
