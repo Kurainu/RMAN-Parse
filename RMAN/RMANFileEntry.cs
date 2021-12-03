@@ -30,18 +30,19 @@ namespace RMAN_Parse.RMAN
         public Boolean IsSingleChunk { get; set; }
         public List<RMANBundleChunkEntry> Chunks { get; set; }
 
-        public void DownloadFile(string Outputpath)
+        public void DownloadFile(string Outputpath, string bundleurl)
         {
+            FileStream fileStream = new FileStream(Outputpath,FileMode.Append, FileAccess.Write);
             foreach (RMANBundleChunkEntry chunk in Chunks)
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("");
-                request.AddRange(0, 600000);
-                using (WebResponse response = request.GetResponse())
-                using (Stream stream = response.GetResponseStream())
-                using (FileStream output = File.Create(Outputpath))
-                {
-                    stream.CopyToAsync(output);
-                }
+                byte[] decompressed = new byte[chunk.UncompressedSize];
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"{bundleurl}\\{chunk.ParentBundleID}.bundle");
+                request.AddRange(chunk.OffsetToChunk, (chunk.OffsetToChunk+chunk.CompressedSize));
+                WebResponse response = request.GetResponse();
+                //response.GetResponseStream().CopyTo(memoryStream);
+                ZstdSharp.ZstdStream zstdStream = new ZstdSharp.ZstdStream(response.GetResponseStream(), ZstdSharp.ZstdStreamMode.Decompress);
+                zstdStream.Read(decompressed);
+                fileStream.Write(decompressed);
             }
         }
     }

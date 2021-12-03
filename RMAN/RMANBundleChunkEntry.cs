@@ -14,7 +14,7 @@ namespace RMAN_Parse.RMAN
         public override bool Equals(Object obj)
         {
             //Check for null and compare run-time types.
-            if ((obj != null) || this.GetType().Equals(obj.GetType()))
+            if (obj != null || this.GetType().Equals(obj.GetType()))
             {
                 RMANBundleChunkEntry chunk = (RMANBundleChunkEntry)obj;
 

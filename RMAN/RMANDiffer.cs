@@ -23,9 +23,17 @@ namespace RMAN_Parse.RMAN
                 foreach (RMANFileEntry Fileentry in Update.Manifest.Files)
                 {
                     var Diffentry = Fileentry;
-                    var srcfileentry = Source.Manifest.Files.FirstOrDefault(f => f.FileId == Fileentry.FileId);
+                    
+                    var srcfileentry = Source.Manifest.Files.Where(f => f.FileId == Fileentry.FileId);
+                    if (srcfileentry.Count() == 0)
+                    {
+                        Diffentry.Chunks = Fileentry.Chunks;
+                    }
+                    else
+                    {
+                        Diffentry.Chunks = GetDiffChunks(srcfileentry.FirstOrDefault(),Fileentry);
+                    }
 
-                    Diffentry.Chunks = GetDiffChunks(srcfileentry,Fileentry);
                     Files.Add(Diffentry);
                 }
             }
@@ -37,13 +45,13 @@ namespace RMAN_Parse.RMAN
             return Files;
         }
 
-        private List<RMANBundleChunkEntry> GetDiffChunks(RMANFileEntry src, RMANFileEntry update)
+        private List<RMANBundleChunkEntry> GetDiffChunks(RMANFileEntry src , RMANFileEntry update)
         {
             List<RMANBundleChunkEntry> chunks = new List<RMANBundleChunkEntry>();
 
             foreach (RMANBundleChunkEntry chunk in update.Chunks)
             {
-                var srchunk = src.Chunks.Where(c => c.ChunkId == chunk.ChunkId);
+                var srchunk = src.Chunks.FirstOrDefault(c => c.ChunkId == chunk.ChunkId);
                 if (!chunk.Equals(srchunk))
                 {
                     chunks.Add(chunk);
