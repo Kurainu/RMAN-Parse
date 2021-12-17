@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>RMAN_Parse</RootNamespace>
     <Platforms>AnyCPU;x64</Platforms>
     <AssemblyName>RMAN-Parse</AssemblyName>
