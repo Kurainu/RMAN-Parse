@@ -2,7 +2,7 @@
 
 This is a RMAN Parser That Parses a given Manifest and Saves it as a json file in the Current Directory.
 
-This a C# Port from the RMAN Parser from Stelar7
+This a C# Port with a handful additions from the RMAN Reader part from [Stelar7s lol-parser](https://github.com/stelar7/lol-parser)
 
 ## Usage
 
